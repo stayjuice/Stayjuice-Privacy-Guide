@@ -1,0 +1,1151 @@
+Privacy Guide 2025 By Stayjuice
+
+This guide is for research purposes only. I encourage you to do your own research and tests to learn about privacy. this research paper is a stepping stone in to cyber privacy and security.
+The mention of computer forensics is to explain what value your data has in each section to snoopers and privacy invaders in general. we look at aspects of computer systems in the mindset of a forensic examiner or auditor to better help you understand how the inner workings of an operating system impact privacy and how it is used by bad actors, privacy invaders or snoopers.
+
+privacy is forever changing and ongoing in this digital age and  through research and practice, you better yourself and the methods that you use.
+
+I am someone that had my privacy badly violated when I was arrested for free speech I am an activist and that has never changed.
+
+I write this guide to level the playing field because privacy is more important than ever and I was determined to never have my privacy violated again.
+
+My methods work by combining many steps, layers of privacy the main methods work by causing an operating system to forget.
+
+I am familiar with windows systems I spent a long time when I was young and bored learning to bend the operating system to my will and before systems had mac address privacy built in I was changing my own mac address.
+
+Windows has many components and services that in my opinion are used to log and spy on a user. from event logs, to histories such as windows search, time stamps and logs for showing when you last used a usb port which in the view of forensic examiner would place you at your pc at a specific time and date. there are logs that show the last time you ran a program the list goes on.
+
+this guide is not just based on windows its forever changing and will go on to cover not only windows but android, Linux and IOS. By Android I mean degoogled versions of android.
+
+this guide will cover VPN's, vpn routers and also ongoing research and methods that may be updated in newer versions of this research document.
+
+I have a dedicated system for research and testing and is currently working on windows 10, windows 11 will be covered in a later guide although I hate windows 11 with a passion as it brings more privacy concerns.
+
+through disabling and tweaking windows 10 I have noticed that not only does my system run faster, it uses less power consumption and is faster.
+
+my ideal system will be encrypted, have less logs and history and spying services / components disabled and be debloated. It will have privacy enhancements, it will forget history and the latest feature will be a hardware kill switch,made from a micro-controller that will have a gyroscope and accelerometer built in. it will be plugged in to the back of the system and stuck to the outside of the system and if the system gets picked up or detects and movement (this will need tweaking) it will shutdown the system forcefully so that if someone if removing your system to steal it. just the act of picking the system up will force shutdown and the encryption will kick in. the coding will also shut the system down if the micro controller is unplugged so that unplugging it will also force a shutdown. it will be cheap as microcontrollers are cheap. you can encase them in epoxy resin if you are super paranoid to prevent chips from being tampered with.
+
+the idea is that an attacker grabs your laptop or pc an the micro controller is mounted to the laptop lid at the back or to the side of a pc and jolting it from picking it up will shut it down using miropython and python pc side to read the sensors and the software will run during startup so that its always and it will also detect if the microcontroller is unplugged and force shut-down. any attacker would count on getting a system that is unlocked and running from a user and the act of picking the system up or unplugging the sensor will shut it down and It needs tweaking, if its set to sensitive then using the systems track-pad or keyboard will force a shut-down but setting it in theory so that the force of picking it up (elevation and movement) will shut it down. Its a concept that will be tested and documented in time and should be very cost effective.
+
+as good as your privacy set-up is your typing style or writing style alone can be used to identify you and that is where AI comes in (offline AI run locally on an encrypted separate system is best) you can use AI or other software with rewrite feature to take everything that you type and rewrite it. apple have this feature in the latest Ai enabled smart phones and they claim to do this locally on the device however I cannot verify or vouch for such claims. Deepseek can do this, Chatgpt can do this and both can be run locally there are guides from running and installing these offline for offline use so no data goes to the cloud.
+
+In windows 10 there are many privacy issues. I will cover each one below and try my best to explain and provide methods of turning these off. Ideally you will get yourself familiar with the registry, windows registry editing, powershell, cmd commands you can test these out on a virtual system (Virtualbox or simiar) so that you don’t break anything and its ideal to have a test environment. please note that after windows updates you may have to re apply these changes as windows may undo them with updates.
+
+1: Disable windows search
+
+Search History
+
+Risk: Windows Search stores a history of your searches, which could include sensitive terms or file names. This history could be accessed by other users of the device or potentially by malicious software.
+
+Using Windows Search on Windows can introduce several privacy risks, primarily related to how the feature collects, stores, and processes data. Here are some key privacy concerns:
+1. Indexing of Personal Files
+Windows Search indexes files on your system, including personal documents, emails, and other sensitive data. If unauthorized users gain access to your device, they could use the search feature to quickly locate and access private information.
+
+Forensic analysis of Windows 10 search can reveal valuable information about a user's activities, including search terms, accessed files, and other behaviors. Windows Search maintains various artifacts that can be analyzed to reconstruct user actions. Below is an overview of the key forensic artifacts related to Windows Search and how they can be analyzed:
+
+1. Windows Search Database (EDB File)
+
+    Location: C:\ProgramData\Microsoft\Search\Data\Applications\Windows\Windows.edb
+
+Description: This is the primary database file used by Windows Search to store indexed data, including file metadata, search history, and other information.
+
+Forensic Value:
+
+Contains indexed file names, paths, and metadata (e.g., creation/modification dates).
+
+May include search terms and user activity.
+
+Disable windows 10 / 11 search permanently
+
+Step 1 – Search services.msc in windows 10 taskbar search.
+
+Step 2 – Click on services.
+
+tep 3 – Now, find windows search entry from the list.
+
+Step 4 – Double click on it. Choose startup type as disabled from the dropdown.
+
+Step 5 – Click on stop. Finally press OK. Also under the recovery tab set all actions to Take No Action so that windows cannot restart the said services in the background, this will be true for any service we stop going forwards.
+
+Last Access time in windows:
+
+What is Last Access Time?
+
+Last Access Time is a file system attribute that records the last time a file or directory was accessed (e.g., read or executed).
+
+By default, NTFS updates this time stamp whenever a file or folder is accessed, which can be useful for tracking file usage but may also impact system performance.
+
+Last Access Time is a valuable forensic artifact in Windows systems, as it records the last time a file or directory was accessed (e.g., read or executed). However, its usefulness depends on whether the feature is enabled or disabled. Below is a detailed guide on the forensic analysis of Last Access Time, including its significance, how to interpret it, and the challenges associated with it.
+
+1. What is Last Access Time?
+
+Definition: A timestamp maintained by the NTFS (New Technology File System) that records the last time a file or folder was accessed.
+
+Location: Stored in the $STANDARD_INFORMATION attribute of the Master File Table (MFT) for each file or folder.
+
+Behavior:
+
+Updated when a file is read, executed, or otherwise accessed.
+
+Can be disabled using the command in command prompt 
+fsutil behavior set disablelastaccess 1.
+
+Forensic Significance of Last Access Time
+
+Timeline Analysis:
+
+Helps reconstruct a timeline of user activity, such as when specific files were accessed.
+
+Evidence of File Usage:
+
+Indicates whether a file was opened, copied, or executed, which can be critical in investigations.
+
+Corroborating Evidence:
+
+Can support other forensic artifacts, such as browser history, event logs, or prefetch files.
+
+Event logs: is a tricky one in windows 10 as disabling it can break wifi discovery when disabled.
+
+these logs can be cleared using the follwing command in command prompt
+for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
+
+alternatively you can disable in services.msc by typing that in windows run WinKey + R
+
+Event logs contain Event IDs, which are numeric codes that indicate specific types of events. Here are some important Event IDs for forensic analysis:
+Security Log Event IDs
+
+4624: Successful account login.
+
+4625: Failed account login.
+
+4672: Special privileges assigned to a new logon.
+
+4688: A new process was created (useful for tracking program execution).
+
+4698: A scheduled task was created.
+
+4700: A scheduled task was enabled.
+
+4720: A user account was created.
+
+4726: A user account was deleted.
+
+4732: A user was added to a security-enabled group.
+
+4740: A user account was locked out.
+
+1102: The audit log was cleared (indicates potential tampering).
+
+System Log Event IDs
+
+6005: Event log service started (system startup).
+
+6006: Event log service stopped (system shutdown).
+
+7036: A service changed its state (e.g., started or stopped).
+
+Windows Shellbags
+
+Forensic Implications of Disabling Shellbags
+
+Privacy:
+
+Disabling or clearing Shellbags can help protect user privacy by removing traces of accessed folders.
+
+Forensic Investigations:
+
+deleting Shellbags may hinder forensic investigations, as they are a valuable source of evidence for reconstructing user activity.
+
+there is no direct way to disable Shellbags entirely, you can clear existing Shellbags I recommend privazer or R-wipe there is a free and paid version or you may use Ccleaner.
+
+I would reccomend using at least two depending on requirements, not zll cleaners will remove logs related to ExecutedProgram history ( I will cover this in the next section)
+
+ExecutedProgramsList is a free tool by Nirsoft it basically shows a log of programs that you have run including when you last run them this is of interest to a forensic examiner as it shows when you last run a program and which programs you run, as far as I am aware as of writing this, only R-wipe can clean these logs (r-wipe.com)
+
+there maybe other software but to disable such logs (listed in next section) its a little tricky but doable.
+
+our main focus is on MuiCache & AppCompatFlags (Compatibility Assistant) and prefetch (prefetch will be covered later and superprefetch) that the logs are stored in for programs run including time stamps and dates that the programs where last launched. 
+
+MUiCache to disable use the following registry code:
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell]
+"NoMUICache"=dword:00000001
+
+save it as a .reg file in note pad and run it as admin or you may navigate to 
+
+HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell
+
+add a new Dword called NoMUICache and set it to 1
+
+AppCompatFlags: to disable 
+
+use the following code and save it as a reg file:
+
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags]
+"DisablePCA"=dword:00000001
+
+ or navigate to :HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags add a new Dword in regedit called DisablePCA and set it to
+1
+
+Forensic analysis of the MuiCache (Multilingual User Interface Cache) in Windows can provide insights into user activity, application usage, and potentially malicious behavior. The MuiCache stores information about installed applications and their language resources, making it a valuable artifact for investigators.
+What is MuiCache?
+
+Location:
+
+HKEY_CURRENT_USER\Software\Classes\Local Settings\MuiCache
+
+Purpose:
+
+Stores language-specific resource information for applications (e.g., display names, descriptions).
+
+Forensic Value:
+
+Can reveal which applications were executed by the user, even if the executable has been deleted.
+
+Key Points for Forensic Analysis:
+
+Analyze Entries:
+
+Examine the registry keys under MuiCache to identify executed applications.
+
+Each entry typically includes:
+
+The full path to the executable.
+
+Language-specific resource information.
+Timestamps:
+
+Check the last modified timestamps of registry keys to determine when applications were executed.
+
+Suspicious Entries:
+
+Look for executables in non-standard locations (e.g., temp folders, removable drives).
+
+Identify unknown or suspicious application names.
+
+Correlate with Other Artifacts:
+
+Cross-reference findings with other forensic artifacts like Prefetch, Amcache, or Event Logs.
+
+Example of Use:
+Attackers may execute malicious files from temporary folders, leaving traces in the MuiCache even after deletion.
+
+
+By analyzing the MuiCache, investigators can reconstruct user activity and identify potential malicious behavior.
+
+What is AppCompatFlags?
+
+The AppCompatFlags (Application Compatibility Flags) are stored in the Windows Registry and are used to manage compatibility settings for applications. These settings are often applied when an application does not run correctly on a newer version of Windows.
+
+The primary registry locations for AppCompatFlags are:
+
+System-wide settings:
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags
+
+User-specific settings:
+
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags
+
+Forensic Analysis of AppCompatFlags
+1.Key Areas to Investigate:
+
+AppCompatFlags Registry Keys:
+
+Investigate the AppCompatFlags subkeys under both HKEY_LOCAL_MACHINE and HKEY_CURRENT_USER.
+
+Look for entries under:
+
+Layers: Stores compatibility settings for specific applications (e.g., running as administrator, compatibility mode).
+
+Compatibility Assistant: Tracks applications that have been run and their compatibility settings.
+
+Executable Files:
+
+Check the file paths of executables listed in the Layers key to identify which applications have compatibility settings applied.
+
+Timestamps:
+Analyze the timestamps of registry keys and values to determine when compatibility settings were applied or modified.
+ 
+UserAssist:
+
+Forensic analysis of the UserAssist registry keys in Windows is a critical part of investigating user activity. The UserAssist feature tracks and records information about programs and shortcuts executed by a user, making it a valuable source of evidence for forensic investigators.
+What is UserAssist?
+
+Location:
+
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist
+
+Purpose:
+Tracks GUI-based application executions (e.g., programs launched via the Start Menu or desktop shortcuts).
+
+Stores data such as:
+
+The number of times an application was executed.
+
+The last execution time (timestamp).
+
+The focus count (how often the application was in focus).
+
+Key Subkeys in UserAssist:
+
+{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}
+
+Tracks shortcuts and programs executed from the Start Menu.
+
+{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}
+
+Tracks programs executed from the desktop.
+
+Forensic Analysis of UserAssist:
+1.Data Structure:
+
+Encoded Names:
+
+Executable names and paths are stored in ROT13 encoding (a simple letter substitution cipher).
+
+Example: C:\Windows\notepad.exe becomes P:\Jvaqbj\abgrcnqr.rkr.
+
+Count and Timestamps:
+
+Each entry includes:
+
+Run Count: Number of times the program was executed.
+Last Execution Time: Stored as a Windows FILETIME (64-bit timestamp).
+
+2:Steps for Analysis:
+Extract UserAssist Data:
+
+Use tools like RegRipper, Eric Zimmerman's Registry Explorer, or FTK Imager to extract and decode UserAssist entries.
+
+Alternatively, manually decode ROT13 entries using online tools or scripts.
+
+Analyze Run Count and Timestamps:
+
+dentify frequently executed programs.
+
+Check the last execution time to correlate with other forensic artifacts (e.g., event logs, prefetch files).
+
+Look for Suspicious Entries:
+
+Check for executables in non-standard locations (e.g., temp folders, removable drives).
+
+Identify unknown or suspicious program names.
+
+Correlate with Other Artifacts:
+
+Cross-reference findings with Prefetch, Amcache, MuiCache, and Event Logs.
+
+Conclusion:
+
+UserAssist is a powerful forensic artifact for reconstructing user activity and identifying potential malicious behavior. By analyzing run counts, timestamps, and executable paths, investigators can gain insights into application usage and detect suspicious activity.
+
+to Disable UserAssit 
+use the following registry code
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\Settings]
+"NoLog"=dword:00000001
+
+or using regedit navigate to:HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\Settings
+add a new Dword called NoLog and set the value to 1
+
+also use the following reg code 
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Start_TrackProgs"=dword:00000000
+"Start_TrackEnabled"=dword:00000000
+
+or using regedit navigate to:HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+add a new Dword called Start_TrackProgs and set the value to 0 and another Dword called Start_TrackEnabled and set its value to 0
+
+Windows Jumplist
+Turn on or off Jump Lists on taskbar and Start in Windows 10
+
+Complete the given below directions to enable or disable jump lists in Windows 10.
+
+Step 1: Open the Settings app. Navigate to Personalization > Start.
+
+Step 2: Turn on or off Show recently opened items in Jump Lists on Start or taskbar option to enable or disable Jump Lists on Start and taskbar.
+
+Disable Jump Lists via Registry Editor (All Windows 10 Versions)
+
+Open the Registry Editor:
+
+Press Win + R, type regedit, and press Enter.
+
+Navigate to the Jump Lists Registry Key:
+
+Go to the following path:
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+
+Create or Modify the Start_TrackDocs Key:
+
+Right-click in the right pane, select New > DWORD (32-bit) Value, and name it Start_TrackDocs.
+
+Set its value to 0 to disable Jump Lists.
+
+0 = Disabled
+
+1 = Enabled (default)
+
+Restart File Explorer or Your Computer:
+
+Restart File Explorer:
+
+Press Ctrl + Shift + Esc to open Task Manager.
+
+Find Windows Explorer, right-click it, and select Restart.
+
+Forensic analysis of Jump Lists in Windows 10 can provide valuable insights into user activity, including recently accessed files, applications, and timelines. Jump Lists are a feature of the Windows taskbar that store information about recently opened files and frequent tasks for applications. These artifacts are stored in Automatic Destinations and Custom Destinations files, making them a key source of evidence for forensic investigators.
+
+SuperPrefetch Windows 10
+
+Disable SuperFetch via Services
+
+Open the Services Manager:
+
+Press Win + R, type services.msc, and press Enter.
+
+Locate the SysMain Service:
+
+In the Services window, scroll down and find the SysMain service (previously called SuperFetch).
+
+Stop the Service:
+Right-click on SysMain and select Stop.
+
+Disable the Service:
+
+Right-click on SysMain again and select Properties.
+
+In the Properties window, change the Startup type to Disabled.
+
+Click Apply and then OK.
+
+Restart Your Computer:
+
+Restart your PC for the changes to take effect.
+
+Forensic analysis of the Prefetch files in Windows can provide valuable insights into application execution, user activity, and system behavior. Prefetch is a performance optimization feature in Windows that caches information about applications and files loaded during the boot process or when programs are launched. These files are stored in the C:\Windows\Prefetch directory and can be a goldmine for forensic 
+
+PreFetch:
+How to Disable Prefetch in Windows 11/10
+
+To disable Prefetch in Windows 11/10, follow these steps:
+
+Press Win+R to open the Run prompt.
+Type regedit > press the Enter button.
+Click the Yes
+Go to PrefetchParameters in HKLM.
+Double-click on the EnablePrefetcher REG_DWORD value.
+Set the Value data as 0.
+Click the OK button.
+
+To disable Prefetch in Windows, Run regedit to open the Registry Editor. Navigate to the following registry key:
+
+HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters
+
+disable-prefetch
+
+Double-click on EnablePrefetcher on the right side to open its DWORD value box.
+
+The possible values for EnablePrefetcher are:
+
+0 – Disable Prefetcher
+1 – Application launch Prefetching enabled
+2 – Boot Prefetching enabled
+3 – Application launch and Boot Prefetching enabled
+
+The default value is 3. To disable Prefetch, set it to 0. Click OK and Exit.
+
+Incidentally, you can also disable or tweak the Suoerfetcher here – you will see the EnableSuperfetcher DWORD just below it.
+
+The possible values for EnableSuperfetch are:
+0 – Disable SysMain
+1 – Enable SysMain for boot files only
+2 – Enable SysMain for applications only
+3 – Enable SysMain for both boot files and applications
+
+Forensic analysis of the Prefetch files in Windows can provide valuable insights into application execution, user activity, and system behavior. Prefetch is a performance optimization feature in Windows that caches information about applications and files loaded during the boot process or when programs are launched. These files are stored in the C:\Windows\Prefetch directory and can be a goldmine for forensic investigators.
+
+Login Events log
+
+To disable the logging of login events in Windows 10, you can modify the Audit Policy or disable specific Advanced Audit Policies via the Command Prompt. Here's how you can do it:
+
+Command Prompt
+
+Open Command Prompt as Administrator:
+
+Press Win + X and select Command Prompt (Admin) or Windows Terminal (Admin).
+
+Disable Login Event Auditing:
+
+Run the following command to disable logging of successful and failed logon events:
+cmd
+
+auditpol /set /subcategory:"Logon" /success:disable /failure:disable
+
+Verify the Changes:
+
+To check the current audit policy, run:
+cmd
+
+
+auditpol /get /subcategory:"Logon"
+
+restart your pc
+
+Forensic analysis of Windows login events is a critical aspect of investigating security incidents, unauthorized access, or suspicious activities on a Windows system. Windows logs login events in the Security Event Log, which can be analyzed to determine who logged in, when, and how. Below is a guide to performing forensic analysis of Windows login events:
+
+Volume Shadow Copies in Windows 10
+
+Method 1: Disable Volume Shadow Copies via System Properties
+
+Open System Properties:
+
+Press Win + R, type sysdm.cpl, and press Enter.
+
+Go to System Protection:
+
+In the System Properties window, go to the System Protection tab.
+
+Disable Shadow Copies for a Drive:
+
+Select the drive for which you want to disable shadow copies (e.g., C:).
+
+Click Configure.
+
+Turn Off System Protection:
+
+Select Disable system protection.
+
+Click Apply and then OK.
+
+Confirm the Action:
+
+A warning will appear. Click Yes to confirm.
+
+Repeat for Other Drives:
+
+If you want to disable shadow copies for other drives, repeat the process for each drive.
+
+Forensic analysis of Windows Shadow Copies can provide valuable insights into historical states of files and system data, which is useful for investigating incidents, recovering deleted or modified files, and understanding system changes over time. Shadow Copies are part of the Volume Shadow Copy Service (VSS) and are often used for system restore points and file versioning.
+
+Here’s a comprehensive guide to performing forensic analysis of Windows Shadow Copies:
+1. Understand Shadow Copies
+
+What Are Shadow Copies?
+
+Shadow Copies are snapshots of files or volumes taken at specific points in time.
+
+They are used for:
+
+System Restore Points.
+
+Previous Versions of files (via "Restore previous versions" in file properties).
+
+Backup operations.
+
+Where Are Shadow Copies Stored?
+
+Shadow Copies are stored in the System Volume Information folder on each drive, which is hidden and protected by default.
+
+2. Access Shadow Copies
+
+To analyze Shadow Copies, you need to access them. This can be done using built-in tools or third-party forensic tools.
+Method 1: Using Built-in Tools
+
+List Shadow Copies:
+
+Open Command Prompt as Administrator.
+
+Run the following command to list all shadow copies:
+cmd
+
+vssadmin list shadows
+
+This will display details like Shadow Copy ID, Creation Time, and Volume.
+
+Mount a Shadow Copy:
+
+Use the mklink command to create a symbolic link to a shadow copy:
+cmd
+
+mklink /d C:\ShadowCopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\
+
+Replace X with the appropriate shadow copy number.
+
+Access Files:
+
+Navigate to the symbolic link (e.g., C:\ShadowCopy) to explore the files in the shadow copy.
+
+Method 2: Using Third-Party Tools
+ShadowExplorer:
+
+A free tool to browse and extract files from shadow copies.
+
+Download: ShadowExplorer
+
+FTK Imager:
+
+A forensic tool that can mount and analyze shadow copies.
+
+Arsenal Image Mounter:
+
+Allows mounting shadow copies for forensic analysis.
+
+3. Analyze Shadow Copies
+
+Once you have access to shadow copies, perform the following forensic analysis steps:
+a. Identify Relevant Shadow Copies
+
+Use the creation timestamps (vssadmin list shadows) to identify shadow copies relevant to your investigation (e.g., around the time of an incident).
+
+b. Recover Deleted or Modified Files
+
+Shadow Copies can contain previous versions of files that were deleted or modified.
+
+Use tools like ShadowExplorer or manually browse the mounted shadow copy to recover files.
+
+c. Compare File States
+
+Compare files in different shadow copies to identify changes over time.
+
+Look for:
+
+New files.
+
+Modified files.
+
+Deleted files.
+
+d. Analyze System Files
+
+Examine system files (e.g., registry hives, event logs) in shadow copies to identify changes or malicious activity.
+
+For example:
+
+Extract SAM, SYSTEM, and SOFTWARE registry hives from shadow copies to analyze historical registry data.
+
+Extract event logs (Security.evtx, System.evtx, etc.) to analyze historical events.
+
+Check for Malware or Artifacts
+
+Shadow Copies can contain traces of malware or malicious activity that were later removed.
+
+Use antivirus or forensic tools to scan files in shadow copies.
+
+4.Extract and Preserve Evidence
+
+Export Files:
+
+Copy relevant files from shadow copies to a secure location for further analysis.
+
+Create Forensic Images:
+
+Use tools like FTK Imager or dd to create forensic images of shadow copies for preservation.
+
+Document Findings:
+
+Record the creation time of shadow copies, files recovered, and any anomalies.
+
+5. Use Forensic Tools for Advanced Analysis
+
+Autopsy:
+
+Open-source forensic tool for analyzing disk images, including shadow copies.
+
+X-Ways Forensics:
+
+Advanced forensic tool for analyzing shadow copies and other artifacts.
+
+EnCase:
+
+Commercial forensic tool for in-depth analysis of shadow copies.
+
+6. Common Forensic Questions
+
+ What files existed at a specific point in time?
+
+Use shadow copies to recover files as they were at a specific time.
+
+Were any files deleted or modified?
+
+Compare shadow copies to identify changes.
+
+What system changes occurred?
+
+Analyze registry hives and event logs in shadow copies.
+
+Is there evidence of malware or unauthorized activity?
+
+Scan shadow copies for malicious files or artifacts.
+
+7. Challenges and Limitations
+
+Shadow Copies May Be Deleted:
+
+Shadow Copies can be deleted due to disk space constraints or manual deletion.
+
+Limited Retention Period:
+
+Shadow Copies are not retained indefinitely and may be overwritten.
+
+Encryption:
+Encrypted files in shadow copies may not be accessible without the encryption key.
+
+8.Best Practices
+
+Act Quickly:
+
+Shadow Copies may be overwritten or deleted, so analyze them as soon as possible.
+
+Preserve Evidence:
+Create forensic images of shadow copies to ensure data integrity.
+
+Use Multiple Tools:
+
+Combine built-in tools and third-party forensic tools for comprehensive analysis.
+
+By analyzing Windows Shadow Copies, you can uncover historical data, recover deleted files, and identify system changes that may be critical to your investigation. Let me know if you need further assistance!
+
+File Carving is a forensic technique used to recover deleted files from storage media by analyzing raw data and identifying file signatures (e.g., file headers and footers). To prevent file carving in Windows 10, you need to ensure that deleted files cannot be easily recovered. This involves securely deleting files and ensuring that residual data is not left on the disk.
+
+Here are several methods to prevent file carving in Windows
+
+1. Use Secure Deletion Tools
+
+Secure deletion tools overwrite the file's data on the disk, making it unrecoverable.
+a. Built-in Cipher Command
+
+Windows includes the cipher command, which can securely overwrite free space on a drive:
+
+Open Command Prompt as Administrator.
+
+Run the following command to overwrite free space:
+    
+cmd
+
+cipher /w:C
+
+Replace C with the drive letter you want to secure. This command overwrites deleted data with random values, making file carving difficult.
+
+b. Third-Party Tools
+
+Use tools like:
+
+R-wipe: A tool for securely deleting files and overwriting free space and history it also supports ssd and standard hard disks. Use at least 3 overwrites or more (DOD standards or stronger)
+
+Cleaner:Includes a drive wiper feature to securely erase free space.
+
+Privizer:A tool for erasing logs and history.
+
+
+these tools can clear impostant things like Pagefile and Hibernation File also but may require restarting as some are locked by windows.
+
+they can also clear shellbags, browser and some software histories. These tools are critical for privacy as once the data is securely wiped.
+
+Usb device history and logs. we used to use Usb oblivion however that tool doesn’t remove all logs for this you want is DeviceCleanup found at uwe-sieber.de
+
+it has both win32 and win64 bit versions, run it as admin and use it to clear all all usb logs/histgory 
+
+Forensic analysis of USB logs and history in Windows 10 can help investigators determine when USB devices were connected to a system, what time and date they were last used, what files were accessed or transferred, and whether any unauthorized devices were used. Windows maintains logs and registry entries related to USB device activity, which can be analysed for forensic purposes.
+
+RecentDocs
+
+Disable RecentDocs via Registry Editor
+
+If you're using Windows 10 Home or prefer using the Registry Editor, you can disable RecentDocs by modifying the registry.
+
+Open Registry Editor:
+
+Press Win + R, type regedit, and press Enter.
+
+Navigate to the RecentDocs Key:
+
+Go to:
+
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+
+Create a New DWORD Value:
+
+Right-click on the right pane, select New > DWORD (32-bit) Value.
+
+Name the new value NoRecentDocsHistory.
+
+Set the Value:
+
+Double-click on NoRecentDocsHistory and set its value to 1.
+
+Restart Your Computer:
+
+Restart the system for the changes to take effect.
+
+Recycle Bin: If you empty this using normal right click then empty recycle bin your deleted files will be recovered by anyone that is determined to its very easy with any data recovery software. Use ccleaner, r-wipe to securely erase the recycle bin never empty it any other way unless you want your delete files to come back from the depths of your hard drive.
+
+Mac Addresses
+
+When your PC is not connected to Wi-Fi, it sends out a signal to search for available networks in the area to help you get online. This signal includes the unique physical hardware address (known as the MAC address) of your device. In certain locations, such as shopping malls, stores, or other public spaces, this unique address might be used to track your movements within the area. If your Wi-Fi hardware supports it, you can enable random hardware addresses to make it more difficult for others to track you while your PC scans for networks or connects to them.
+
+There are two settings for using random hardware addresses: one applies to all networks, and the other is specific to the network you're currently connected to. When enabled for all networks, your PC will use random hardware addresses whenever it scans for or connects to any network. When enabled for a specific network, random hardware addresses will be used the next time you connect to that particular network.
+
+To Turn On or Off Random Hardware Addresses for New Wi-Fi Network Connections
+
+1 Open Settings, and click/tap on the Network & Internet icon.
+
+2 Click/tap on Wi-Fi on the left side, and turn on or off (default) Use random hardware addresses for what you want. 
+
+o Turn On or Off Random Hardware Addresses for Specific Wi-Fi Network Connection
+
+1 Open Settings, and click/tap on the Network & Internet icon.
+
+2 Click/tap on Wi-Fi on the left side, and click/tap on the Manage known networks link on the right side
+
+3 Click/tap on the Wi-Fi network connection (ex: "Brink-Router"), and click/tap on Properties. (see screenshot below)
+ 
+Under Random hardware addresses, Select On, Off (default), or Change daily in the Use random hardware addresses for this network drop menu for what you want
+
+Forensic analysis of MAC addresses on a Windows system involves examining network-related artifacts to identify and analyze Media Access Control (MAC) addresses. These addresses are unique identifiers assigned to network interfaces and can be crucial in digital investigations, such as tracking devices, identifying network activity, or linking a device to specific actions.
+
+VPN
+
+A VPN (Virtual Private Network) is like a secure tunnel that protects your internet activity from being seen by others. Here's a simple explanation:
+What is a VPN?
+
+A VPN is a tool that hides your online activity by encrypting (scrambling) your internet connection and routing it through a server in a different location.
+
+When you use a VPN, it makes it look like your internet traffic is coming from the VPN server instead of your actual device.
+
+How Does a VPN Work?
+
+Encryption: When you connect to a VPN, it scrambles your data so no one can read it—not hackers, your internet provider, or even the government.
+
+Tunneling: Your encrypted data travels through a secure "tunnel" to the VPN server.
+
+New IP Address: The VPN server gives you a new IP address (like a digital address), so websites and apps can't tell where you really are.
+
+How Does a VPN Help Privacy?
+
+Hides Your Online Activity:
+
+Without a VPN, your internet provider (ISP) can see everything you do online. With a VPN, your activity is hidden.
+
+Protects on Public Wi-Fi:
+
+Public Wi-Fi (like in cafes or airports) is often unsafe. A VPN encrypts your connection, so hackers can't steal your data.
+
+Hides Your Location:
+
+A VPN makes it look like you're browsing from a different place, so websites and apps can't track your real location.
+
+Bypasses Censorship:
+
+In some countries, certain websites or apps are blocked. A VPN lets you access them by connecting to a server in a different country.
+
+Stops Tracking:
+
+Advertisers and websites track your online behavior. A VPN makes it harder for them to follow you.
+
+Example of VPN Use
+
+Imagine you're sending a letter:
+
+Without a VPN: The letter is sent openly, and anyone can read it or see where it came from.
+
+With a VPN: The letter is sealed in a secure envelope, and the return address is changed to a different location.
+
+Limitations of VPNs
+
+A VPN doesn't make you completely anonymous. Websites can still track you through cookies or accounts you log into.
+
+Not all VPNs are trustworthy. Some free VPNs may log your data or sell it to advertisers. It is good to find one with a no log policy and that is torrent friendly
+
+In short, a VPN is a powerful tool for protecting your privacy online by encrypting your connection and hiding your activity from prying eyes.
+
+
+Vpn tips:
+for android or Ios you can pay for some vpn subscriptions with a itunes or google play voucher and buy them using cash.
+
+there are some free vpns in the app store like hotspot shield or tunnelbear but be sure to read their privacy policy.
+
+use a vpn or vpn router with a kill switch this means that if your vpn loses connection internet on your device will stop until its reconnected, many routers with openwrt support this and some apps without it your privacy is at risk.
+
+use a privacy friendly vpn location / server think countries that do are not within Europe Or America and that are not friendly with such countries, think of servers closer to Africa & Asia its all about about slowing down data requests from snoopers or those who want to invade your privacy.
+
+Countries to Avoid for Privacy
+
+Some countries have weak privacy laws, mandatory data retention policies, or are part of surveillance alliances like the 5 Eyes, 9 Eyes, or 14 Eyes. Avoid using VPN servers in these countries if privacy is your top priority:
+
+United States: Part of the 5 Eyes alliance and has extensive surveillance programs.
+
+United Kingdom: Part of the 5 Eyes alliance with strict data retention laws.
+
+Australia: Part of the 5 Eyes alliance and has mandatory data retention laws.
+
+Canada: Part of the 5 Eyes alliance and shares data with other member countries.
+
+Germany: Part of the 14 Eyes alliance and has strict data retention laws.VPN Implications.
+
+If a VPN provider is based in a 5/9/14 Eyes country, it may be compelled to hand over user data to government agencies, even if the provider claims to have a "no-logs" policy.
+
+
+
+Advert trackers
+
+they are a plague but what you need is a good web browser with good privacy settings (do homework) consider using a network level dns server like Adguard running on a router such as openwrt or better yet use a Pi-hole a raspberry pi add blocker and get some good block lists, block google, microsoft, block social media trackers, app trackers
+
+I am blocking at least 10k requests a day and I rarely get any adverts now, not even those that stalk me across websites.
+
+
+Cell tower / mobile phone trackers
+
+a cell phone or mobile phone like iphone or android and even fitness watches and trackers are like gps anklets, with bluetooth, wifi it will all be used to follow your every move indoors and outdoors they are very precise and even 3g 4g and 5g tech can be used to track you in this way. Every cell town ( think of them as computers with logs) they log everytime you connect to them and can be used to see where are you, where you have been all with time stamps that the companies and the man can gain access to such logs. 
+
+gps you can use a privcy os like graphene os to help prevent add tracking via gps or you can spoof your gps location. Iphones are even worse there is a setting that is opt out called Significant Location Tracking which by default logs every location you visit by default, think of it like the history in a cars Gps nativation system which can also be pulled by anyone willing. to disable in ios
+
+Open the Settings app.
+Tap Privacy. 
+
+Tap Location Services
+At the bottom of the page, tap System Services. 
+Tap Significant Locations.
+
+Here you’ll see your iPhone location history in the Significant Locations list. You can tap on each town you’ve visited to see the places you’ve been, for how long, and on what day (scary stuff huh?)
+
+Scroll up to the top of the Significant Locations screen.
+Toggle off Significant Locations. Your iPhone will no longer track your location
+To clear your iPhone location history, scroll to the bottom of the Significant Locations list and tap Clear History. Remember just because you deleted the history of locations doesn’t mean that it cant be recovered, that is why we encrypt our phones with a strong password (not pincode) and overwrite the data (copy a bunch of songs to your phone to fill up the free space or better yet use software to erase free space)
+
+cell phone tower (3g,4g,5g etc) is harder to be private
+steps for full privacy when you dont need calls etc.
+power off phone, use flight mode but also place your phone in a faraday bag or box these are made to block signals, forensic people use these to secure devices when transporting them to prevent remote device wiping and to keep data secure. they are cheap and you can buy them on ebay amazon or from china dhgate aliexpress etc. not all faraday bags or boxes are equal, you want to buy one that blocks cell phone signals, wifi and bluetooth and be warned if you dont switch off your device or put it in flight mode when inside the bag your device can heat up like a turkey at christmas dinner.
+
+to test a farday bag place your phone inside, call it and if it doesnt ring and goes through to voicemail you are golden. to test wifi blocking you use a network scanner on your network and see if the device is still connected.
+
+Bluetooth connect your headphones via bluetooth play music and place it in the faraday bag and listen as your music cuts out.
+
+Stingray
+a stingray is a device used by the law and hackers to intercept phone calls, messages etc. it makes a fake cell phone tower broadcast and your phone will connect to it and everything you say and do will be recorded.
+
+there are very few options, turn off your phone signal, use wifi calling instead and only make calls over wifi or use voice over ip (VOIP or SIP) over a wifi or mobile data and use a vpn to encrypt the data traffic use signal for sms (text messages) this encrypts your messages so only the person at the othe rend can see them not even your network can see them in plain text but it requires you both to have signal setup for sms.
+
+Cameras and microphones
+we have them in smart tv's,phones ,tablets, tv remotes, smart home assistants, home automation, consoles, etc
+
+if they are internet, with or bluetooth enabled they can be accessed and smart assistants are the worst privacy violators 
+assume that they can call back home and record audio/video the security on such devices are lacking and probably vulnerable. Alexa & google home have been caught recording peoples conversations and then uploaded to the cloud, same for door cameras like ring etc. Mums the word dont say anyting that you would not want anyone else to hear or record.
+
+favor devices that have hardware off switches to turn off cameras and microphones at a hardware level. for home automation this means using something open soruce like home assistant (home assistant green) it will run on a mini computer or raspberry pi and had a hardware off switch or you can use home assist with a compatible microphone with a hardware on off switch
+
+or alternatively you can put Alexa or Google home etc on a smart plug controlled with a app on your phone or with an IR remove or even a timer plug and turn them off when you are not using them or need some privacy
+
+other devices like tv you can run through a pi hole and a vpn with adblocker.
+
+phones, tablets etc, refer to faraday bag section when you need privacy.
+
+Android 
+
+I recommend using a degoogled phone like Graphene os, E/Os or simiar, they have web installers to help people through each step and can run on newer phones like google pixels and samsungs etc and even pixel tablet.
+
+again use a vpn, mac address spoofing or randomisation, add blocker. use encryption. use software like Ishredder for android or ccleaner to erase free space after clearing app cache and data or uninstalling apps
+
+you can use a virtual android box running on a pc 
+LDPlayer is an android emulator you need to change the language to English etc but they list how to do that on the website, install it on a encrypted usb flash drive or hard drive and remote control it from your phone or tablet and wipe the free space on the drive after you uninstall it.
+
+Iphone
+
+To maximize your privacy on an iPhone, you can adjust several settings to limit data sharing, tracking, and exposure to potential threats. Here are the best privacy settings for iPhones:
+1. Enable Strong Device Security
+
+Set a Strong Passcode: Use a long alphanumeric passcode instead of a simple 4- or 6-digit code.
+
+Go to Settings > Face ID & Passcode (or Touch ID & Passcode) > Change Passcode.
+
+Enable Face ID or Touch ID: Adds an extra layer of security.
+
+Turn on Find My iPhone:
+
+Go to Settings > [Your Name] > Find My > Find My iPhone and enable Find My iPhone and Send Last Location.
+
+2. Limit App Tracking
+
+Disable Ad Tracking:
+
+Go to Settings > Privacy & Security > Tracking and turn off Allow Apps to Request to Track.
+
+Reset Advertising Identifier:
+
+Go to Settings > Privacy & Security > Tracking > Apple Advertising and tap Reset Advertising Identifier.
+
+3. Manage App Permissions
+
+ Review App Permissions:
+
+Go to Settings > Privacy & Security and review permissions for Location Services, Microphone, Camera, Contacts, etc.
+
+Disable permissions for apps that don’t need them.
+
+Limit Location Tracking:
+Go to Settings > Privacy & Security > Location Services and set apps to While Using or Never instead of Always.
+
+Enable Precise Location only for apps that truly need it.
+
+Disable Location Services for System Services:
+
+        Scroll to the bottom of Location Services and disable unnecessary system services like Location-Based Apple Ads or Significant Locations.
+
+4. Secure Your Browsing
+
+Use Safari Privacy Features:
+
+Go to Settings > Safari and enable:
+
+Prevent Cross-Site Tracking
+
+Block All Cookies (or set to Allow from Websites I Visit)
+
+Hide IP Address (from Trackers and Websites)
+
+Fraudulent Website Warning
+
+Enable Private Browsing: Always use Private Mode in Safari to avoid saving browsing history or cookies.
+
+5. Protect Your Apple ID
+
+    Enable Two-Factor Authentication (2FA):
+
+Go to Settings > [Your Name] > Password & Security > Two-Factor Authentication.
+
+Use a Strong Password: Ensure your Apple ID password is unique and strong.
+
+    Review Account Activity:
+
+Go to Settings > [Your Name] and check for any unfamiliar devices or activity.
+
+6. Limit Data Sharing with Apple
+
+Disable Analytics Sharing:
+
+Go to Settings > Privacy & Security > Analytics & Improvements and turn off Share iPhone Analytics.
+
+Disable Personalized Ads:
+
+Go to Settings > Privacy & Security > Apple Advertising and turn off Personalized Ads.
+
+7. Secure Messages and Emails
+
+Enable iMessage Encryption:
+
+Go to Settings > Messages and enable iMessage.
+
+Use Hide My Email:
+Go to Settings > [Your Name] > iCloud > Hide My Email to create anonymous email addresses for signing up to services.
+
+Block Unknown Senders:
+
+Go to Settings > Messages and enable Filter Unknown Senders.
+
+8. Disable Siri Suggestions
+
+Limit Siri Data Collection:
+
+Go to Settings > Siri & Search and disable Listen for "Hey Siri" and Allow Siri When Locked if you don’t use Siri.
+
+Scroll down and disable Siri Suggestions for apps you don’t want Siri to learn from.
+
+9. Lock Down Notifications
+
+Hide Sensitive Notifications:
+
+Go to Settings > Notifications > Show Previews and set to When Unlocked or Never.
+
+Disable Notification Previews on Lock Screen:
+
+Go to Settings > Notifications and customize preview settings for individual apps.
+
+10. Use a VPN for Internet Privacy
+
+    Install a Trusted VPN:
+
+Use a reputable VPN app from the App Store to encrypt your internet traffic and hide your IP address.
+
+11. Disable Unnecessary Features
+
+Turn Off Bluetooth and Wi-Fi When Not in Use:
+
+Swipe down from the top-right corner to access the Control Center and disable Bluetooth and Wi-Fi.
+
+Disable AirDrop for Everyone:
+
+Go to Settings > General > AirDrop and set it to Contacts Only or Receiving Off.
+
+12. Regularly Update Your iPhone
+
+Install iOS Updates:
+
+Go to Settings > General > Software Update and ensure your iPhone is running the latest version of iOS for security patches.
+
+13:Use Private Relay (iCloud+ Subscribers)
+
+Enable iCloud Private Relay:
+
+Go to Settings > [Your Name] > iCloud > Private Relay and turn it on to hide your IP address and browsing activity.
+
+14:Review and Delete Unused Apps
+
+Delete Apps You Don’t Use:
+
+Long-press on an app icon and select Remove App to delete apps that may be collecting data unnecessarily.
+
+15.Monitor Privacy Report in Safari
+Check Privacy Report:
+
+Open Safari, tap the AA icon in the address bar, and select Privacy Report to see which trackers are being blocked.
+
+By adjusting these settings, you can significantly enhance your privacy and security on your iPhone. Regularly review and update these settings to stay protected.
+
+Backups use encrypted backups this can be done in itunes and set a strong backup password (not 123456)
+
+Passwords:
+it is good practice to not reuse passwords online, to use a secure encrypted password safe and generate strong passwords with said safe on a site by site basis and use two step authentication when possible and be careful who you share your number with as they are vulnerable to sim swapping attacks. Companies are quick to sell your phone number for profit, especially when shopping online.
+
+Messengers:
+when looking for messenger apps or aps like telegram it is best to find one that had a decentralized network as having your data on a server that companies access is far from ideal and look for one that does not require personal information such as phone number or email address.
+
+Software to look at for windows privacy
+
+W10Privacy a porgram that will help you block microsfot from calling back home to the mothership with your personal data (blocks microsoft servers) it also allows you to chose privacy tweaks, install and block bloatware apps like weather etc.
+
+Winaero Tweaker: a similar program for privacy tweaks and blocking ms servers.
+
+some browser add-ons to consider and research:
+
+Decentraleyes
+
+Protects you against tracking through "free", centralized, content delivery. It prevents a lot of requests from reaching networks like Google Hosted Libraries, and serves local files to keep sites from breaking. Complements regular content blockers.
+
+Ublock Orgin: blocks trackers
+
+Mac & Linux
+Mac Os & Linux sections are a work in progress and still to come 
+
+Linux will be next on the list of updates but requires more research and testing. I dedicate a lot of time to researching methods in this research paper. the windows section took a while to create and bring up to date and still is a work in progress as windows 11 is out and the systems change and what works on windows 10 may no longer work on windows 11.
+
+Mac will be last sorry mac os users but I am saving for a mac system to use for research.
+
+thoughts & more research.
+
+if you spend a lot of time in front of screens doing research I would consider looking in to the impact of blue light (from said screens) on your health and sleep you can go down a long rabbit hole looking in to this but its an interesting study non the less and your eyes and sleep may thank you for it later.
+
+consider having two devices, one for your online persona (not your real identity) and a separate one for your personal stuff like shopping, contacting whoever you are in contact with that knows you in real life and keep the two devices (your persona) separate
+if your real identity is listed on a search engine like google, please consider removing it, this is how people get doxxed (personal info leaked) or swatted or even targeted by scammers and even stalkers, the internet is like the wild west. 
+
+Privacy and cyber security is a passion of mine. This is done in my free time done for free for the love of my privacy, not because I have anything to hide, on to contrary, I value you privacy as it has been invaded, you don't know what you got till its gone (like he lyrics to a song) without privacy so called free services will harvest your data and sell it for anyone to purchase from scammers to bad actors and when you go to sell old technology if you don't clean if securely anyone can recover the data, even steal saved passwords, product keys, cookies, anything you have done on the pc can be recovered, this is the world that we live in that learning about privacy is essential to stay safe online, which is something I strongly encourage that everyone does (their homework) don’t just take my word for it because you read some random strangers research paper on the internet, the proof is out there, go find it, this is what I did and I have more privacy.
+
+(Find me on Github StayJuice for updates to this guide)
