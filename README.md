@@ -91,6 +91,14 @@ If you find this project useful, please give it a ⭐️ to help others discover
 
 be sure to check out the full privacy guide in the texy files
 
+coding projects to arrive
+I am working on several coding projects related to privacy and security
+the first project are windows based kill switches to shutdown an unattended system using two methods
+the first will shutdown a system if a certain usb device is unplugged ideally this device will be teathered using a metal lanyard or keyring to a wall, desk of table
+the second will be a gyroscope & accelerator based kill switch the idea is thet if your pc is picked up of moved without your knowledge the act or picking up the device will force a system shutdown 
+this will be coded in python & micropython and flashed to a microcontroller which has those sensors
+the system will listen for movement on the sensors and shutdown (the microcontroller will ideally be tethered to the PC) if its unplugged from pc it will also cause a system shutdown
+such code will be open source
 thank you 
 
 StayJuice
