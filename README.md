@@ -99,6 +99,8 @@ the second will be a gyroscope & accelerator based kill switch the idea is thet 
 this will be coded in python & micropython and flashed to a microcontroller which has those sensors
 the system will listen for movement on the sensors and shutdown (the microcontroller will ideally be tethered to the PC) if its unplugged from pc it will also cause a system shutdown
 such code will be open source
+the project including sourcecode is now available as well as the pytjon scripts, tested using windows 11 64bit pc
+
 thank you 
 
 StayJuice
